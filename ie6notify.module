@@ -88,7 +88,7 @@ function ie6notify_js() {
         <p>
           <?php
           print t('To get a better experience of this web page you should !upgrade_ie or, for best experience, change to one of: !ff, !chrome, !safari, !opera', array(
-            '!upgrade_ie' => l('download a new version of your browser', 'http://www.microsoft.com/windows/downloads/ie/getitnow.mspx', array('absolute' => TRUE)),
+            '!upgrade_ie' => l(t('download a new version of Internet Explorer'), 'http://www.microsoft.com/windows/downloads/ie/getitnow.mspx', array('absolute' => TRUE)),
             '!ff'     => l('Firefox', 'http://www.getfirefox.com/', array('absolute' => TRUE)),
             '!chrome' => l('Google Chrome', 'http://www.google.com/chrome', array('absolute' => TRUE)),
             '!safari' => l('Safari', 'http://www.apple.com/safari/', array('absolute' => TRUE)),
