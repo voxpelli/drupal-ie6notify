@@ -1,0 +1,111 @@
+<?php
+function ie6notify_menu() {
+  return array(
+    'ie6notify/js' => array(
+      'title' => 'IE 6 Upgrade Notification Javascript',
+      'page callback' => 'ie6notify_js',
+      'access arguments' => array('access content'),
+      'type' => MENU_CALLBACK,
+    ),
+  );
+}
+
+function ie6notify_preprocess_page(&$vars) {
+  $vars['scripts'] .= "<!--[if lt IE 7]>\n" . '<script type="text/javascript" src="' . url('ie6notify/js') . '"></script>' . "\n<![endif]-->\n";
+}
+
+function ie6notify_js() {
+  drupal_set_header('Content-Type: text/javascript; charset=utf-8');
+  ob_start();
+  ?>
+  jQuery(function() {
+    jQuery('head').append('
+      <style type="text/css">
+      body {
+        padding-bottom: 57px;
+      }
+      body div#ie6warning,
+      body div#ie6warning * {
+        padding: 0;
+        margin: 0;
+        border: 0;
+        position: static;
+        display: block;
+        float: none;
+        background: none;
+        color: #000;
+        font-size: 11px;
+        font-family: Verdana, sans-serif;
+        font-weight: normal;
+        font-variant: normal;
+        font-style: normal;
+        line-height: normal;
+        text-indent: 0;
+        text-decoration: none;
+        text-transform: none;
+        text-align: left;
+        cursor: default;
+        clear: none;
+        overflow: hidden;
+        visibility: visible;
+        letter-spacing: 0;
+      }
+      body div#ie6warning {
+        position: absolute;
+        z-index: 20000;
+        bottom: auto;
+        top: expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-51));
+        left: expression(eval(document.documentElement.scrollLeft));
+        width: expression(eval(document.documentElement.clientWidth));
+        background: #CDFFCC;
+        border-top: 1px solid #538255;
+      }
+      body div#ie6warning h1 {
+        padding: 5px 10px 0;
+        font-weight: 700;
+        border-top: 1px solid #93c594;
+      }
+      body div#ie6warning p {
+        padding: 0 10px;
+      }
+      body div#ie6warning p.bottom {
+        padding-bottom: 5px;
+      }
+      body div#ie6warning a:link,
+      body div#ie6warning a:visited,
+      body div#ie6warning a:active,
+      body div#ie6warning a:hover {
+        display: inline;
+        color: #333;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+      </style>
+    ');
+    jQuery("body").append('
+      <div id="ie6warning">
+        <h1><?php print t('You are using an old version of Internet Explorer'); ?></h1>
+        <p>
+          <?php
+          print t('To get a better experience of this web page you should !upgrade_ie or, for best experience, change to one of: !ff, !chrome, !safari, !opera', array(
+            '!upgrade_ie' => l('download a new version of your browser', 'http://www.microsoft.com/windows/downloads/ie/getitnow.mspx', array('absolute' => TRUE)),
+            '!ff'     => l('Firefox', 'http://www.getfirefox.com/', array('absolute' => TRUE)),
+            '!chrome' => l('Google Chrome', 'http://www.google.com/chrome', array('absolute' => TRUE)),
+            '!safari' => l('Safari', 'http://www.apple.com/safari/', array('absolute' => TRUE)),
+            '!opera'  => l('Opera', 'http://www.opera.com/', array('absolute' => TRUE)),
+          ));
+          ?>
+        </p>
+        <p class="bottom">
+          <?php
+          print t('If you can\\\'t do this yourself you should contact your IT-department or get help from a friend/geek.');
+          ?>
+        </p>
+      </div>
+    ');
+  });
+ <?php
+ $content = ob_get_contents();
+ ob_end_clean();
+ print str_replace("\n", ' ', $content);
+}

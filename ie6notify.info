@@ -1,0 +1,5 @@
+; $Id$
+name = IE 6 Upgrade Notification
+description = Adds a notification for IE 6 users about updating their browsers
+core = 6.x
+version = "6.x-0.1"
